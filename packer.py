@@ -141,9 +141,10 @@ def rect_cmp2(rect):
     return rect.width * -1.0 + e
 
 def rect_cmp3(rect):
-    e = (rect.width + rect.height) / float(rect.width * rect.height)
-    s = 1.0 / (rect.width * rect.height)
-    return -1.0 * (rect.width + s - e)
+    size = float(rect.width * rect.height)
+    e = (2 * rect.width + 2 * rect.height) / size
+    s = 1 / size
+    return -1.0 * (rect.width - e - s)
 
 
 def pack(rects, side_len=None, rect_cmp=rect_cmp3):
