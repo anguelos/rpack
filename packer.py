@@ -142,7 +142,6 @@ def rect_cmp2(rect):
     return rect.width * -1.0 + e
 
 def rect_cmp3(rect):
-    # this method must be used with max, instead of min
     e = (rect.width + rect.height) / float(rect.width * rect.height)
     s = 1.0 / (rect.width * rect.height)
     return -1.0 * (rect.width + s - e)
