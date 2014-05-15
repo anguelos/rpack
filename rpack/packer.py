@@ -3,10 +3,10 @@
 import math
 
 class Rect(object):
-    def __init__(self, width, height, id):
+    def __init__(self, width, height, rel):
         self.width = width
         self.height = height
-        self.id = id
+        self.rel = rel
         self.x = None
         self.y = None
 

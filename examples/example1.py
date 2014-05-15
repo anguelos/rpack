@@ -7,7 +7,7 @@ from pyglet.window import mouse
 def draw_rects(done, colors):
     gl.glBegin(gl.GL_QUADS)
     for rect in done:
-        gl.glColor3f(*colors[rect.id])
+        gl.glColor3f(*colors[rect.rel])
         gl.glVertex2f(rect.x, rect.y)
         gl.glVertex2f(rect.x+rect.width, rect.y)
         gl.glVertex2f(rect.x+rect.width, rect.y+rect.height)
