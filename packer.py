@@ -1,7 +1,6 @@
 # coding: utf-8
 
 import math
-from itertools import chain, combinations
 
 class Rect(object):
     def __init__(self, width, height, id):
