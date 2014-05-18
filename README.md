@@ -10,5 +10,4 @@ because i did the early tests with pyglet.
 
 rpack has no dependencies right now
 if you want to run the example,
-( it's included in the file )
 you need to install pyglet
