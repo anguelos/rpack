@@ -1,5 +1,6 @@
 # coding: utf-8
 
+from copy import copy
 import math
 
 class Rect(object):
@@ -147,17 +148,20 @@ def rect_cmp3(rect):
     return -1.0 * (rect.width - e - s)
 
 
-def pack(rects, side_len=None, rect_cmp=rect_cmp3):
-    if not side_len:
-        size = sum(rect.width * rect.height for rect in rects)
-        side_len = math.ceil(size ** 0.5)
-        aw = sum(rect.width for rect in rects) / float(len(rects))
-        rest = side_len % aw
-        side_len += int(aw - rest)
+def guess_best_enclosing_width(rects):
+    size = sum(rect.width * rect.height for rect in rects)
+    side_len = math.ceil(size ** 0.5)
+    aw = sum(rect.width for rect in rects) / float(len(rects))
+    rest = side_len % aw
+    side_len += int(aw - rest)
+    return side_len
 
+def pack(inseq, side_len=None, rect_cmp=rect_cmp3):
+    rects = copy(inseq)
+    if not side_len:
+        side_len = guess_best_enclosing_width(rects)
     nodes = [Node(0, 0)]
     nodes_cmp = get_nodes_compare_func(nodes, side_len)
-    packed = []
 
     while rects:
         i, node = min(enumerate(nodes), key=nodes_cmp)
@@ -173,9 +177,8 @@ def pack(rects, side_len=None, rect_cmp=rect_cmp3):
         #rect = min(possible, key=lambda r: width - r.width)
         rect = min(possible, key=rect_cmp)
         rects.remove(rect)
-        packed.append(rect)
         apply_rect(nodes, node, rect, side_len, i)
-    return packed
+    return tuple(inseq)
 
 
 def get_enclosing_rect(rects):
@@ -190,9 +193,10 @@ def get_enclosing_rect(rects):
             most_top = top
     return (int(most_right), int(most_top))
 
-
-def coverage(rects):
+def coverage(rects, enclosing_rect=None):
+    if not enclosing_rect:
+        enclosing_rect = get_enclosing_rect(rects)
+    most_right, most_top = enclosing_rect
     abs_size = sum(rect.width * rect.height for rect in rects)
-    most_right, most_top = get_enclosing_rect(rects)
     frame_size = most_right * most_top
     return (abs_size / (frame_size / 100.0)), (most_right, most_top)
