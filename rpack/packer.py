@@ -147,6 +147,13 @@ def rect_cmp3(rect):
     s = 1 / size
     return -1.0 * (rect.width - e - s)
 
+def rect_cmp4(rect):
+    size = float(rect.width * rect.height)
+    e = (rect.width + rect.height) / size
+    s = 1.0 / size
+    w = 1.0 / rect.width
+    return w * e * s
+
 
 def guess_best_enclosing_width(rects):
     size = sum(rect.width * rect.height for rect in rects)
@@ -156,7 +163,7 @@ def guess_best_enclosing_width(rects):
     side_len += int(aw - rest)
     return side_len
 
-def pack(inseq, side_len=None, rect_cmp=rect_cmp3):
+def pack(inseq, side_len=None, rect_cmp=rect_cmp4):
     rects = copy(inseq)
     if not side_len:
         side_len = guess_best_enclosing_width(rects)
